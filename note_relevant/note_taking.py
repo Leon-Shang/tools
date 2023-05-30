@@ -8,6 +8,7 @@ os.makedirs(note_folder, exist_ok=True)
 
 
 def take_notes_from_clipboard(note_dir):
+    print('Taking notes from clipboard, press Ctrl+C to stop')
     try: 
         old_clip = ''
         while True:
