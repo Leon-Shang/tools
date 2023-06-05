@@ -1,6 +1,8 @@
 import os
 import json
 
+
+
 def get_input_output_dir(input_file='input.md', output_file= 'output.md'):
     with open('files/folder_dir.json', 'r') as file:
         folder_dir = json.load(file)

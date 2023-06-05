@@ -1,0 +1,3 @@
+from note_relevant.note_taking import take_notes_from_clipboard
+
+take_notes_from_clipboard()
