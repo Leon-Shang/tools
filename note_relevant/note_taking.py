@@ -62,7 +62,8 @@ def take_notes_from_clipboard(note_folder = r'note_relevant\note_folder',note_na
     os.makedirs(note_folder, exist_ok=True) 
     print('Taking notes from clipboard, press Ctrl+C to stop')
     try: 
-        old_clip = ''
+        old_clip = None
+        pyperclip.copy('image refresh')
         while True:
             new_clip = pyperclip.waitForNewPaste()
             if new_clip == '':
@@ -71,13 +72,17 @@ def take_notes_from_clipboard(note_folder = r'note_relevant\note_folder',note_na
                 if image_name is not None:
                     image_dir = os.path.join(asset_folder, image_name)
                     new_clip = f'![{image_name}]({image_dir})'
+                    pyperclip.copy('image refresh')
                 else:
+                    pyperclip.copy('image refresh')
                     continue
-            if new_clip in old_clip:
-                old_clip = old_clip.replace(new_clip, f'**{new_clip}**')
-            else:
-                if old_clip != '':
+            if old_clip != None:
+                if new_clip in old_clip:
+                    old_clip = old_clip.replace(new_clip, f'**{new_clip}**')
+                else:
                     write_to_md(old_clip, note_dir)
+                    old_clip = transform_to_md_keyboard(new_clip)
+            else:
                 old_clip = transform_to_md_keyboard(new_clip)
     except KeyboardInterrupt:
         write_to_md(old_clip, note_dir)

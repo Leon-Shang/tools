@@ -1,3 +1,3 @@
 from note_relevant.note_taking import take_notes_from_clipboard
 
-take_notes_from_clipboard(note_name='java_lang')
+take_notes_from_clipboard(note_name='data_structure')
