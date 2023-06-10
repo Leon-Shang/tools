@@ -1,8 +1,10 @@
 # Take notes from clipboard
 import pyperclip
 import os
+
 from pynput import keyboard
 
+from image_relevant.save_image import save_image_from_clipboard
 from string_relevant.md_type.string_to_list import text_to_md_list
 from codes_relevant.recognize import recognize_programming_language
 
@@ -37,7 +39,7 @@ def transform_to_md_keyboard(text):
     def on_press(key):
         nonlocal text
         nonlocal listener
-        if key == keyboard.Key.ctrl_l:
+        if key == keyboard.Key.ctrl_l or key == keyboard.Key.shift_l:
             listener.stop()
             
         if hasattr(key, 'vk'):
@@ -52,16 +54,26 @@ def write_to_md(text, note_dir):
     with open(note_dir, 'a', encoding='utf-8') as f:
         f.write(text + '\n')
 
-def take_notes_from_clipboard(note_folder = r'note_relevant\note_folder',note_name = 'note.md'):
+def take_notes_from_clipboard(note_folder = r'note_relevant\note_folder',note_name = 'note',asset_folder = None):
     
-    note_dir = os.path.join(note_folder, note_name)
+    if asset_folder is None:
+        asset_folder = f'{note_name}.MarkdownAssets'
+    note_dir = os.path.join(note_folder, note_name+'.md')
     os.makedirs(note_folder, exist_ok=True) 
     print('Taking notes from clipboard, press Ctrl+C to stop')
     try: 
         old_clip = ''
         while True:
             new_clip = pyperclip.waitForNewPaste()
-            if new_clip in old_clip and new_clip != '':
+            if new_clip == '':
+                image_folder=  os.path.join(note_folder, asset_folder)
+                image_name = save_image_from_clipboard(name=note_name,save_folder=image_folder)
+                if image_name is not None:
+                    image_dir = os.path.join(asset_folder, image_name)
+                    new_clip = f'![{image_name}]({image_dir})'
+                else:
+                    continue
+            if new_clip in old_clip:
                 old_clip = old_clip.replace(new_clip, f'**{new_clip}**')
             else:
                 if old_clip != '':
