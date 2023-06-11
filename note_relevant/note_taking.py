@@ -36,15 +36,27 @@ def create_key_to_command():
 
 def transform_to_md_keyboard(text):
     key_to_command = create_key_to_command()
-    def on_press(key):
-        nonlocal text
-        nonlocal listener
+    if_pause = False
+    def on_press_not_pause(key,listener,text):
         if key == keyboard.Key.ctrl_l or key == keyboard.Key.shift_l:
             listener.stop()
             
         if hasattr(key, 'vk'):
             if key.vk in key_to_command:
                 text = key_to_command[key.vk](text)
+        return text
+
+    def on_press(key):
+        nonlocal text
+        nonlocal listener
+        nonlocal if_pause
+        if hasattr(key, 'vk'):
+            if key.vk == 96:
+                if_pause = not if_pause
+        if if_pause:
+            pass
+        else:
+            text = on_press_not_pause(key,listener,text)
     with keyboard.Listener(on_press=on_press) as listener:
         listener.join()
         print('listener stop')
@@ -71,7 +83,7 @@ def take_notes_from_clipboard(note_folder = r'note_relevant\note_folder',note_na
                 image_name = save_image_from_clipboard(name=note_name,save_folder=image_folder)
                 if image_name is not None:
                     image_dir = os.path.join(asset_folder, image_name)
-                    new_clip = f'![{image_name}]({image_dir})'
+                    new_clip = f'\n![{image_name}]({image_dir})\n'
                     pyperclip.copy('image refresh')
                 else:
                     pyperclip.copy('image refresh')

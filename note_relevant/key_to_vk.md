@@ -17,9 +17,9 @@
 | F3          | 114       | (NumPad) / | 111       |
 | F4          | 115       | (NumPad) + | 107       |
 | (NumPad) 0  | 96        | P          | 80        |
-| NumPad) 1   | 97        | Q          | 81        |
+| (NumPad) 1  | 97        | Q          | 81        |
 | (NumPad) 2  | 98        | R          | 82        |
-| NumPad) 3   | 99        | S          | 83        |
+| (NumPad) 3  | 99        | S          | 83        |
 | (NumPad) 4  | 100       | T          | 84        |
 | (NumPad) 5  | 101       | U          | 85        |
 | (NumPad) 6  | 102       | V          | 86        |
