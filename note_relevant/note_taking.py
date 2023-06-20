@@ -24,8 +24,10 @@ def text_to_md_code_block(text):
 def create_key_to_command():
     key_to_command = {}
     for i in range(1, 10):
-        # right number key from 1 to 9, 1 is 97, 9 is 105
+        # right number key from 1 to 6, 1 is 97, 6 is 102
         key_to_command[96+i] = Text2MdHead(i).do
+    key_to_command[103] = lambda text: '**'+text+'**' # 7 key
+    key_to_command[104] = lambda text: '\n---\n'+text # 8 key
     key_to_command[106] = text_to_md_code_block
     key_to_command[107] = lambda text: '=='+text+'==' # + key
     key_to_command[109] = text_to_md_list # - key
