@@ -13,7 +13,7 @@ def read_csv_to_df(csv_file):
     # UnicodeDecodeError: 'utf-8' codec can't decode bytes in position 42648-42649: invalid continuation byte
     return pd.read_csv(csv_file, encoding='ISO-8859-1')
 
-def lower_non_alphabet_string(input_string):
+def lower_all_alphabet_string(input_string):
     output_string = ''.join([c for c in input_string if c.isalpha()]).lower()
     # remove character like â
     output_string = ''.join([c for c in output_string if ord(c) < 128])
@@ -34,7 +34,7 @@ def get_df_from_dir(input_dir):
         if column in title_column_list:
             title_column = column
             break
-    csv_df[title_column] = csv_df[title_column].apply(lower_non_alphabet_string)
+    csv_df[title_column] = csv_df[title_column].apply(lower_all_alphabet_string)
     csv_df.set_index(title_column, inplace=True)
     return csv_df
 
@@ -50,7 +50,7 @@ def get_years_classification(csv_df, input_dir):
         if file.endswith('.pdf'):
             title = file.split('.')[0]
             title_key = get_title_without_years(title)
-            title_key = lower_non_alphabet_string(title_key)
+            title_key = lower_all_alphabet_string(title_key)
             for title_in_df in csv_df.index:
                 if title_key in title_in_df:
                     title_key = title_in_df
@@ -74,6 +74,7 @@ def move_files_to_year_folder(years_classification, input_dir, journal_name):
             os.rename(f'{input_dir}/{title}.pdf', f'{new_folder}/{title}.pdf')
 
 
+
 dir = 'files/csv/files_to_move'
 folders = os.listdir(dir)
 for folder in folders:
@@ -81,4 +82,5 @@ for folder in folders:
     csv_df = get_df_from_dir(input_dir)
     years_classification = get_years_classification(csv_df, input_dir)
     move_files_to_year_folder(years_classification, input_dir, folder)
+
 
