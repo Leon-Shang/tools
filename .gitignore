@@ -1,6 +1,5 @@
 file_relevant/files/
 */resources/
-note_relevant/note_folder/note.md
+note_relevant/note_folder/
 *__pycache__/
 paper_relevance/papers/
-```

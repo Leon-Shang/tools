@@ -3,7 +3,7 @@ from pynput import keyboard
 def on_press(key):
     print(key)
     # print(key.char)
-    print(key.vk)
+    # print(key.vk)
     # if key.vk == 97: 
     #     print('a')
     print(type(key))

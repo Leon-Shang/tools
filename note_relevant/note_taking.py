@@ -61,7 +61,7 @@ def transform_to_md_keyboard(text):
     key_to_command = create_key_to_command()
     if_pause = False
     def on_press_not_pause(key,listener,text):
-        if key == keyboard.Key.ctrl_l or key == keyboard.Key.shift_l:
+        if key == keyboard.Key.ctrl_l or key == keyboard.Key.shift_l or key == keyboard.Key.print_screen or key == keyboard.Key.alt_l:
             listener.stop()
             
         if hasattr(key, 'vk'):
